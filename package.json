@@ -1,14 +1,14 @@
 {
   "private": true,
-  "name": "template-for-proposals",
-  "description": "A repository template for ECMAScript proposals.",
+  "name": "proposal-object-map",
+  "description": "An ECMA TC39 proposal to improve the experience & performance of mapping over Objects.",
   "scripts": {
     "build": "ecmarkup spec.emu index.html"
   },
-  "homepage": "https://github.com/tc39/template-for-proposals#readme",
+  "homepage": "https://github.com/tc39/proposal-object-map#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tc39/template-for-proposals.git"
+    "url": "git+https://github.com/tc39/proposal-object-map.git"
   },
   "license": "MIT",
   "devDependencies": {

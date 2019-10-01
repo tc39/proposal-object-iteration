@@ -1,34 +1,55 @@
-# template-for-proposals
+# Making mapping over Objects more concise
 
-A repository template for ECMAScript proposals.
+An ECMA TC39 proposal to improve the experience & performance of mapping over Objects
 
-## Before creating a proposal
+## Vitals
 
-Please ensure the following:
-  1. You have read the [process document](https://tc39.github.io/process-document/)
-  1. You have reviewed the [existing proposals](https://github.com/tc39/proposals/)
-  1. You are aware that your proposal requires being a member of TC39, or locating a TC39 member to "champion" your proposal
+- **Current stage:** 1
+- **Last presented:** October 2019
+- **Author:** Jonathan Keslin (@decompil3d) -- GoDaddy
+- **Champion:** Jonathan Keslin (@decompil3d) -- GoDaddy
 
-## Create your proposal repo
+## The problem
 
-Follow these steps:
-  1.  Create your own repo, clone this one, and copy its contents into your repo. (Note: Do not fork this repo in GitHub's web interface, as that will later prevent transfer into the TC39 organization)
-  1.  Go to your repo settings “Options” page, under “GitHub Pages”, and set the source to the **master branch** and click Save.
-      1. Ensure "Issues" is checked.
-      1. Also, you probably want to disable "Wiki" and "Projects"
-  1.  Avoid merge conflicts with build process output files by running:
-      ```sh
-      git config --local --add merge.output.driver true
-      git config --local --add merge.output.driver true
-      ```
-  1.  Add a post-rewrite git hook to auto-rebuild the output on every commit:
-      ```sh
-      cp hooks/post-rewrite .git/hooks/post-rewrite
-      chmod +x .git/hooks/post-rewrite
-      ```
+Objects are commonly used as the defacto dictionary type in Javascript. But Objects are not iterable by default, so
+many of the valuable collection methods on Iterables are not available for Objects without first transforming the
+Object into an Array.
 
-## Maintain your proposal repo
+## Options for solutions
 
-  1. Make your changes to `spec.emu` (ecmarkup uses HTML syntax, but is not HTML, so I strongly suggest not naming it ".html")
-  1. Any commit that makes meaningful changes to the spec, should run `npm run build` and commit the resulting output.
-  1. Whenever you update `ecmarkup`, run `npm run build` and commit any changes that come from that dependency.
+### Provide functionality to get an Iterator on an Object and collect an iterator into an Object
+
+```js
+// Utility method to get an iterator on an Object
+Iterator.from(obj)
+  // Standard `map` function that operates on iterables
+  .map(([key, value]) => [transform(key), transform(value)])
+  // Collect the iterable data back into an Object
+  .collect(Object);
+```
+
+#### Open issues
+
+- `Iterator` doesn't even exist yet -- should we find somewhere else to put this helper?
+- Cannot add more to `Object` prototype since everything inherits from it
+- Are iterables `map`-able by default? Or do we need to add that?
+- What does `collect` look like? What if the iterable does not have key-value-pairs as values?
+
+## History of this proposal
+
+This proposal has morphed a bit since original presentation.
+
+### October 2019
+
+The initial proposal was `Object.map` -- providing a static API method on `Object` to transform the keys and/or values
+and return the transformed `Object`.
+
+Slides: <https://1drv.ms/p/s!As13Waij_jkUqeV6IHXsJBMDkNIgXw>
+
+#### Resolution from the meeting
+
+There was general support for improving the experience and optimizability of mapping over Objects, but folks were
+concerned about the slippery slope that adding a `map` method would create.
+
+Instead, we agreed that the proposal could change to be an exploration on improving mapping over Objects and agreed on
+Stage 1.
