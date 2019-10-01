@@ -30,10 +30,11 @@ Iterator.from(obj)
 
 #### Open issues
 
-- `Iterator` doesn't even exist yet -- should we find somewhere else to put this helper?
+- `Iterator.from` as well as the collection methods like `map` on an interator are part of the [Iterator Helpers]
+  proposal. Should we avoid being coupled to that proposal?
 - Cannot add more to `Object` prototype since everything inherits from it
-- Are iterables `map`-able by default? Or do we need to add that?
-- What does `collect` look like? What if the iterable does not have key-value-pairs as values?
+- What does `collect` look like for transforming to an Object. Should it accept a type arg like shown? Or should we
+  just have `Iterator.prototype.toObject()` of some sort?
 
 ## History of this proposal
 
@@ -53,3 +54,5 @@ concerned about the slippery slope that adding a `map` method would create.
 
 Instead, we agreed that the proposal could change to be an exploration on improving mapping over Objects and agreed on
 Stage 1.
+
+[Iterator Helpers]: https://github.com/tc39/proposal-iterator-helpers
