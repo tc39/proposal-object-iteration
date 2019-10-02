@@ -24,17 +24,18 @@ Object into an Array.
 Iterator.from(obj)
   // Standard `map` function that operates on iterables
   .map(([key, value]) => [transform(key), transform(value)])
-  // Collect the iterable data back into an Object
-  .collect(Object);
+  // Collect the iterable data back into an Object, specifying key and value selectors
+  .toObject(([key]) => key, ([, value]) => value);
 ```
 
-#### Open issues
+#### How this extends the existing [Iterator Helpers] proposal
 
-- `Iterator.from` as well as the collection methods like `map` on an interator are part of the [Iterator Helpers]
-  proposal. Should we avoid being coupled to that proposal?
-- Cannot add more to `Object` prototype since everything inherits from it
-- What does `collect` look like for transforming to an Object. Should it accept a type arg like shown? Or should we
-  just have `Iterator.prototype.toObject()` of some sort?
+- As spec'd, `Iterator.from` only accepts an `Object` with an `@@iterator` method or an Iterator-like object (i.e. one
+  with a callable `next` method). This proposal extends `Iterator.from` to allow building a synchronous iterator from
+  an `Object`.
+  - If this is not palatable to the committee, we could consider an alternative of `Object.iterate(obj)` or similar.
+- As spec'd, `Iterator.prototype` does not contain `toObject`, so we must add this.
+  - Should we consider having a default key and value selector to make it easier to handle common key-value-pair items?
 
 ## History of this proposal
 
