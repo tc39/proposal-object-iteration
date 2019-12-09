@@ -101,6 +101,8 @@ would not work, since it would be ambiguous for Objects that extend `Iterator.pr
 Since [Iterator Helpers] provides the needed `map` mechanism, this proposal could be adjusted to focus on getting
 an `Iterator` from an Object.
 
-<a id='footnote-1'><sup>1</sup></a> <small>Specifically, `Object.entries`, `Object.keys`, and `Object.values`</small>
+##### Notes
+
+<a id='footnote-1'><sup>1</sup></a> Specifically, `Object.entries`, `Object.keys`, and `Object.values`
 
 [Iterator Helpers]: https://github.com/tc39/proposal-iterator-helpers
