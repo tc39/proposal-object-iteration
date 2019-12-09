@@ -1,6 +1,6 @@
-# Making mapping over Objects more concise
+# Improving iteration on Objects
 
-An ECMA TC39 proposal to improve the experience & performance of mapping over Objects
+An ECMA TC39 proposal to improve the experience & performance of iterating and mapping over Objects
 
 ## Vitals
 
@@ -13,29 +13,65 @@ An ECMA TC39 proposal to improve the experience & performance of mapping over Ob
 
 Objects are commonly used as the defacto dictionary type in Javascript. But Objects are not iterable by default, so
 many of the valuable collection methods on Iterables are not available for Objects without first transforming the
-Object into an Array.
+Object into an Array<sup>[1](#footnote-1)</sup>.
 
-## Options for solutions
+## Proposed solution
 
-### Provide functionality to get an Iterator on an Object and collect an iterator into an Object
+### Provide functionality to get an `Iterator` on an Object
 
 ```js
-// Utility method to get an iterator on an Object
-Iterator.from(obj)
-  // Standard `map` function that operates on iterables
-  .map(([key, value]) => [transform(key), transform(value)])
-  // Collect the iterable data back into an Object, specifying key and value selectors
-  .toObject(([key]) => key, ([, value]) => value);
+// Collect result back into an Object
+Object.fromEntries(
+  // Utility method to get an iterator on an Object
+  Object.iterateEntries(obj)
+    // Standard `map` function that operates on iterables
+    .map(([key, value]) => [transform(key), transform(value)])
+);
 ```
 
-#### How this extends the existing [Iterator Helpers] proposal
+### What exactly is being proposed
 
-- As spec'd, `Iterator.from` only accepts an `Object` with an `@@iterator` method or an Iterator-like object (i.e. one
-  with a callable `next` method). This proposal extends `Iterator.from` to allow building a synchronous iterator from
-  an `Object`.
-  - If this is not palatable to the committee, we could consider an alternative of `Object.iterate(obj)` or similar.
-- As spec'd, `Iterator.prototype` does not contain `toObject`, so we must add this.
-  - Should we consider having a default key and value selector to make it easier to handle common key-value-pair items?
+- Adding up to three static methods on `Object` to provide in-place iteration on data stored therein:
+  - `Object.iterateEntries`: iterates through the Object, providing key-value pairs much like `Map.prototype.entries`
+  - `Object.iterateKeys`: iterates through the Object, providing just the keys like `Map.prototype.keys`
+  - `Object.iterateValues`: iterates through the Object, providing just the values like `Map.prototype.values`
+  
+#### `Object.iterateEntries`
+
+```js
+const obj = { foo: 'bar', baz: 'blah' };
+const entriesIterator = Object.iterateEntries(obj);
+for (const [key, value] of entriesIterator) {
+  console.log(`${key} -> ${value}`);
+}
+```
+
+#### `Object.iterateKeys`
+
+```js
+const obj = { foo: 'bar', baz: 'blah' };
+const keysIterator = Object.iterateKeys(obj);
+for (const key of keysIterator) {
+  console.log(key);
+}
+```
+
+#### `Object.iterateValues`
+
+```js
+const obj = { foo: 'bar', baz: 'blah' };
+const valuesIterator = Object.iterateValues(obj);
+for (const value of valuesIterator) {
+  console.log(value);
+}
+```
+
+#### Relationship to the existing [Iterator Helpers] proposal
+
+- The [Iterator Helpers] proposal is not a requirement to make this proposal useful, but it substantially improves
+  developer experience
+- Without this proposal, the helpers provided in [Iterator Helpers] are not as valuable for data stored in Objects,
+  as there are currently no mechanisms to in-place iterate through an Object.
 
 ## History of this proposal
 
@@ -44,7 +80,7 @@ This proposal has morphed a bit since original presentation.
 ### October 2019
 
 The initial proposal was `Object.map` -- providing a static API method on `Object` to transform the keys and/or values
-and return the transformed `Object`.
+and return the transformed Object.
 
 Slides: <https://1drv.ms/p/s!As13Waij_jkUqeV6IHXsJBMDkNIgXw>
 
@@ -55,5 +91,16 @@ concerned about the slippery slope that adding a `map` method would create.
 
 Instead, we agreed that the proposal could change to be an exploration on improving mapping over Objects and agreed on
 Stage 1.
+
+#### After meeting discussion
+
+After the October meeting, the champions & authors of this proposal and the [Iterator Helpers] proposal met and
+discussed how the two proposals are related. It was determined that augmenting `Iterator.from` for this purpose
+would not work, since it would be ambiguous for Objects that extend `Iterator.prototype`.
+
+Since [Iterator Helpers] provides the needed `map` mechanism, this proposal could be adjusted to focus on getting
+an `Iterator` from an Object.
+
+<a id='footnote-1'><sup>1</sup></a> <small>Specifically, `Object.entries`, `Object.keys`, and `Object.values`</small>
 
 [Iterator Helpers]: https://github.com/tc39/proposal-iterator-helpers
