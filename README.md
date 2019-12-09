@@ -6,6 +6,7 @@ An ECMA TC39 proposal to improve the experience & performance of iterating and m
 
 - **Current stage:** 1
 - **Last presented:** October 2019
+- **Next presentation:** February 2020
 - **Author:** Jonathan Keslin (@decompil3d) -- GoDaddy
 - **Champion:** Jonathan Keslin (@decompil3d) -- GoDaddy
 
