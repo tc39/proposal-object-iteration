@@ -74,6 +74,10 @@ for (const value of valuesIterator) {
 - Without this proposal, the helpers provided in [Iterator Helpers] are not as valuable for data stored in Objects,
   as there are currently no mechanisms to in-place iterate through an Object.
 
+## Polyfill
+
+An unofficial polyfill is available in the [core-js](https://github.com/zloirock/core-js#object-iteration) library.
+
 ## History of this proposal
 
 This proposal has morphed a bit since original presentation.
