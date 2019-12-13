@@ -76,7 +76,7 @@ for (const value of valuesIterator) {
 
 ## Polyfill
 
-A polyfill is available in the [core-js](https://github.com/zloirock/core-js#object-iteration) library.
+An unofficial polyfill is available in the [core-js](https://github.com/zloirock/core-js#object-iteration) library.
 
 ## History of this proposal
 
