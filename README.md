@@ -106,6 +106,12 @@ would not work, since it would be ambiguous for Objects that extend `Iterator.pr
 Since [Iterator Helpers] provides the needed `map` mechanism, this proposal could be adjusted to focus on getting
 an `Iterator` from an Object.
 
+### February 2020
+
+Presenting the change from "Object mapping" to "Object iteration"
+
+Slides: <https://1drv.ms/p/s!As13Waij_jkUqe0X3QmI7R9FfKahkw>
+
 ##### Notes
 
 <a id='footnote-1'><sup>1</sup></a> Specifically, `Object.entries`, `Object.keys`, and `Object.values`
