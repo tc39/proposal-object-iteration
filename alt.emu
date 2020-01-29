@@ -44,7 +44,7 @@ contributors: Jonathan Keslin
         1. Let _index_ be _O_.[[ObjectNextIndex]].
         1. Let _itemKind_ be _O_.[[ObjectIterationKind]].
         1. If _obj_ is *undefined*, return CreateIterResultObject(*undefined*, *true*).
-        1. Let _items_ be ? EnumerableOwnPropertyNames(_obj_, _kind_).
+        1. Let _items_ be ? EnumerableOwnProperties(_obj_, _kind_).
         1. Let _numItems_ be the number of elements of _items_.
         1. NOTE: _numItems_ must be redetermined each time this method is evaluated.
         1. Repeat, while _index_ is less than _numItems_,
