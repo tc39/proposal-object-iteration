@@ -3,7 +3,9 @@
   "name": "proposal-object-map",
   "description": "An ECMA TC39 proposal to improve the experience & performance of mapping over Objects.",
   "scripts": {
-    "build": "ecmarkup spec.emu index.html"
+    "build": "npm run build:spec; npm run build:alt",
+    "build:spec": "ecmarkup spec.emu index.html",
+    "build:alt": "ecmarkup alt.emu alt.html"
   },
   "homepage": "https://github.com/tc39/proposal-object-map#readme",
   "repository": {

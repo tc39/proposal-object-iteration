@@ -112,6 +112,10 @@ Presenting the change from "Object mapping" to "Object iteration"
 
 Slides: <https://1drv.ms/p/s!As13Waij_jkUqe0X3QmI7R9FfKahkw>
 
+Proposed spec text: <https://tc39.es/proposal-object-iteration/>
+
+Alternate spec text: <https://tc39.es/proposal-object-iteration/alt.html>
+
 ##### Notes
 
 <a id='footnote-1'><sup>1</sup></a> Specifically, `Object.entries`, `Object.keys`, and `Object.values`

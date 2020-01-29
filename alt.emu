@@ -1,0 +1,109 @@
+<!doctype html>
+<meta charset="utf8">
+<link rel="stylesheet" href="./spec.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<script src="./spec.js"></script>
+<pre class="metadata">
+title: Object iteration (alternate spec text)
+stage: 2
+contributors: Jonathan Keslin
+</pre>
+<emu-clause id="sec-object-iterator-objects">
+  <h1>Object Iterator Objects</h1>
+  <p>An Object Iterator is an object, that represents a specific iteration over some specific instance object. There is not a named constructor for Object Iterator objects. Instead, Object Iterator objects are created by calling certain methods of the Object global.</p>
+
+  <emu-clause id="sec-createobjectiterator" aoid="CreateObjectIterator">
+    <h1>CreateObjectIterator ( _obj_, _kind_ )</h1>
+    <p>Several methods of the Object global return Iterator objects. The abstract operation CreateObjectIterator with arguments _obj_ and _kind_ is used to create such iterator objects. It performs the following steps:</p>
+    <emu-alg>
+      1. Let _iterator_ be ObjectCreate(%ObjectIteratorPrototype%, &laquo; [[IteratedObject]], [[ObjectNextIndex]], [[ObjectIterationKind]] &raquo;).
+      1. Set _iterator_.[[IteratedObject]] to _obj_.
+      1. Set _iterator_.[[ObjectNextIndex]] to 0.
+      1. Set _iterator_.[[ObjectIterationKind]] to _kind_.
+      1. Return _iterator_.
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="sec-%objectiteratorprototype%-object">
+    <h1>The %ObjectIteratorPrototype% Object</h1>
+    <p>The <dfn>%ObjectIteratorPrototype%</dfn> object:</p>
+    <ul>
+      <li>has properties that are inherited by all Object Iterator Objects.</li>
+      <li>is an ordinary object.</li>
+      <li>has a [[Prototype]] internal slot whose value is %IteratorPrototype%.</li>
+      <li>has the following properties:</li>
+    </ul>
+
+    <emu-clause id="sec-%objectiteratorprototype%.next">
+      <h1>%ObjectIteratorPrototype%.next ( )</h1>
+      <emu-alg>
+        1. Let _O_ be the *this* value.
+        1. If Type(_O_) is not Object, throw a *TypeError* exception.
+        1. If _O_ does not have all of the internal slots of a Object Iterator Instance (<emu-xref href="#sec-properties-of-object-iterator-instances"></emu-xref>), throw a *TypeError* exception.
+        1. Let _obj_ be _O_.[[IteratedObject]].
+        1. Let _index_ be _O_.[[ObjectNextIndex]].
+        1. Let _itemKind_ be _O_.[[ObjectIterationKind]].
+        1. If _obj_ is *undefined*, return CreateIterResultObject(*undefined*, *true*).
+        1. Let _items_ be ? EnumerableOwnPropertyNames(_obj_, _kind_).
+        1. Let _numItems_ be the number of elements of _items_.
+        1. NOTE: _numItems_ must be redetermined each time this method is evaluated.
+        1. Repeat, while _index_ is less than _numItems_,
+          1. Let _i_ be the Record that is the value of _items_[_index_].
+          1. Set _index_ to _index_ + 1.
+          1. Set _O_.[[ObjectNextIndex]] to _index_.
+          1. Return CreateIterResultObject(_i_, *false*).
+        1. Set _O_.[[IteratedObject]] to *undefined*.
+        1. Return CreateIterResultObject(*undefined*, *true*).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-%objectiteratorprototype%-@@tostringtag">
+      <h1>%ObjectIteratorPrototype% [ @@toStringTag ]</h1>
+      <p>The initial value of the @@toStringTag property is the String value *"Object Iterator"*.</p>
+      <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *true* }.</p>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-properties-of-object-iterator-instances">
+    <h1>Properties of Object Iterator Instances</h1>
+    <p>Object Iterator instances are ordinary objects that inherit properties from the %ObjectIteratorPrototype% intrinsic object. Object Iterator instances are initially created with the internal slots described in <emu-xref href="#table-object-iterator-slots"></emu-xref>.</p>
+    <emu-table id="table-object-iterator-slots" caption="Internal Slots of Object Iterator Instances">
+      <table>
+        <tbody>
+        <tr>
+          <th>
+            Internal Slot
+          </th>
+          <th>
+            Description
+          </th>
+        </tr>
+        <tr>
+          <td>
+            [[IteratedObject]]
+          </td>
+          <td>
+            The object that is being iterated.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[ObjectNextIndex]]
+          </td>
+          <td>
+            The integer index of the next enumerable element to be examined by this iterator.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            [[ObjectIterationKind]]
+          </td>
+          <td>
+            A String value that identifies what is returned for each element of the iteration. The possible values are: ~key~, ~value~, ~key+value~.
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </emu-table>
+  </emu-clause>
+</emu-clause>
