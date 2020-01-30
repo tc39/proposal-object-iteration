@@ -8,6 +8,34 @@ title: Object iteration (alternate spec text)
 stage: 2
 contributors: Jonathan Keslin
 </pre>
+
+<emu-clause id="Object_iterateKeys">
+	<h1>Object.iterateKeys( O )</h1>
+	<p>When the *iterateKeys* function is called with argument _O_, the following steps are taken:</p>
+	<emu-alg>
+		1. Let _obj_ be ? ToObject(_O_).
+		1. Return CreateObjectIterator(_obj_, ~key~).
+	</emu-alg>
+</emu-clause>
+
+<emu-clause id="Object_iterateValues">
+	<h1>Object.iterateValues( O )</h1>
+	<p>When the *iterateValues* function is called with argument _O_, the following steps are taken:</p>
+	<emu-alg>
+		1. Let _obj_ be ? ToObject(_O_).
+		1. Return CreateObjectIterator(_obj_, ~value~).
+	</emu-alg>
+</emu-clause>
+
+<emu-clause id="Object_iterateEntries">
+	<h1>Object.iterateEntries( O )</h1>
+	<p>When the *iterateEntries* function is called with argument _O_, the following steps are taken:</p>
+	<emu-alg>
+		1. Let _obj_ be ? ToObject(_O_).
+		1. Return CreateObjectIterator(_obj_, ~key+value~).
+	</emu-alg>
+</emu-clause>
+
 <emu-clause id="sec-object-iterator-objects">
   <h1>Object Iterator Objects</h1>
   <p>An Object Iterator is an object, that represents a specific iteration over some specific instance object. There is not a named constructor for Object Iterator objects. Instead, Object Iterator objects are created by calling certain methods of the Object global.</p>
