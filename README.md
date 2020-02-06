@@ -5,8 +5,8 @@ An ECMA TC39 proposal to improve the experience & performance of iterating and m
 ## Vitals
 
 - **Current stage:** 1
-- **Last presented:** October 2019
-- **Next presentation:** February 2020
+- **Last presented:** February 2020
+- **Next presentation:** TBD
 - **Author:** Jonathan Keslin (@decompil3d) -- GoDaddy
 - **Champion:** Jonathan Keslin (@decompil3d) -- GoDaddy
 
@@ -108,13 +108,31 @@ an `Iterator` from an Object.
 
 ### February 2020
 
-Presenting the change from "Object mapping" to "Object iteration"
+Presented the change from "Object mapping" to "Object iteration"
 
 Slides: <https://1drv.ms/p/s!As13Waij_jkUqe0X3QmI7R9FfKahkw>
 
 Proposed spec text: <https://tc39.es/proposal-object-iteration/>
 
 Alternate spec text: <https://tc39.es/proposal-object-iteration/alt.html>
+
+#### Resolution from the meeting
+
+Multiple implementors voiced concerns over the usefulness of this API. Folks believe that the existing `Object.keys`,
+`values`, and `entries` are just fine and can be optimized easily enough. It's straightforward enough for an engine
+to have a "fast" path that can just optimize away the array instantiation in the common case, with a slower path for
+edge cases like when the Array prototype is polluted.
+
+There was also concern over the second spec text option allowing modification of the underlying object during iteration.
+This is consistent with existing collections such as Array, Set, and Map. But it would mean that moving from using `keys`
+to `iterateKeys` would have a real semantic difference that could be a footgun.
+
+Some delegates believe that it would be better to try to direct folks to more appropriate "dictionary" collections like
+`Map`, which already provides the in-place iteration provided in the proposal as presented. There was agreement that
+getting `Map`s from JSON was not ideal, so the next steps for this proposal may be to investigate improving revivers for
+this purpose.
+
+More investigation to follow.
 
 ##### Notes
 
