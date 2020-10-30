@@ -1,3 +1,7 @@
+# WITHDRAWN: This proposal has been withdrawn from consideration
+
+After concerns were raised at the February 2020 meeting, this proposal is being withdrawn.
+
 # Improving iteration on Objects
 
 An ECMA TC39 proposal to improve the experience & performance of iterating and mapping over Objects
